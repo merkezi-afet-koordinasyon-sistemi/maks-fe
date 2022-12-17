@@ -21,7 +21,8 @@ const DisastersPage = () => {
   const fetchDisasters = async () => {
     client.get("/disasters", {
       params: {
-        sort: ['updatedAt:desc']
+        sort: ['updatedAt:desc'],
+        populate: ['coordinators'],
       }
     }).then((response) => {
       setDisasters(response.data.data);

@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
-import {Box, Button, Drawer, FormControl, styled, TextField, Typography} from "@mui/material";
+import {Autocomplete, Box, Button, Drawer, FormControl, styled, TextField, Typography} from "@mui/material";
 import {Close} from "mdi-material-ui";
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -19,14 +19,18 @@ const Header = styled(Box)(({theme}) => ({
 
 const defaultValues = {
   name: '',
+  coordinators: [],
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Name')
+  name: yup.string().required().label('Name'),
+  coordinators: yup.array().label('Coordinators'),
 });
 
 const DisasterFormDrawer = (props) => {
   const {open, toggle, selectedDisaster, submitListener} = props
+
+  const [users, setUsers] = React.useState([]);
 
   const isEdit = useMemo(() => !!selectedDisaster, [selectedDisaster])
 
@@ -35,21 +39,28 @@ const DisasterFormDrawer = (props) => {
     control,
     formState: {errors},
     reset,
+    watch
   } = useForm({
     defaultValues,
     resolver: yupResolver(schema),
   })
 
+  console.log({watch: watch(), users})
   const handleClose = () => {
     toggle()
     reset(defaultValues)
   }
 
   const onSubmit = async (data) => {
+    const transformedData = {
+      name: data.name,
+      coordinators: data.coordinators.map((coordinator) => coordinator.id),
+    }
+
     if (isEdit) {
-      await handleUpdate(data)
+      await handleUpdate(transformedData)
     } else {
-      await handleCreate(data)
+      await handleCreate(transformedData)
     }
   }
 
@@ -84,13 +95,21 @@ const DisasterFormDrawer = (props) => {
     if (open) {
       if (isEdit) {
         reset({
-          name: selectedDisaster.attributes.name
+          name: selectedDisaster.attributes.name,
+          coordinators: selectedDisaster.attributes.coordinators.data.map((coordinator) => ({id: coordinator.id, ...coordinator.attributes})),
         })
       } else {
         reset(defaultValues)
       }
     }
   }, [isEdit, selectedDisaster, open])
+
+  useEffect(() => {
+    (async () => {
+      const response = await client.get('/users')
+      setUsers(response.data)
+    })()
+  }, [])
   return (
     <Drawer
       open={open}
@@ -118,6 +137,35 @@ const DisasterFormDrawer = (props) => {
                   fullWidth
                   error={!!errors.name}
                   helperText={errors.name?.message}
+                />
+              )}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{marginBottom: 5}}>
+            <Controller
+              name='coordinators'
+              control={control}
+              render={({field}) => (
+                <Autocomplete
+                  value={field.value}
+                  onChange={(event, newValue) => {
+                    field.onChange(newValue)
+                  }}
+                  options={users}
+                  multiple
+                  disableCloseOnSelect
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  getOptionLabel={(option) => option.username}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Coordinators'
+                      variant='outlined'
+                      fullWidth
+                      error={!!errors.coordinators}
+                      helperText={errors.coordinators?.message}
+                    />
+                  )}
                 />
               )}
             />
