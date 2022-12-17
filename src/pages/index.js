@@ -25,16 +25,20 @@ const Home = () => {
       return
     }
 
-    if (auth.user && auth.user.role) {
+    /*if (auth.user && auth.user.role) {
       const homeRoute = getHomeRoute(auth.user.role)
 
       // Redirect user to Home URL
       router.replace(homeRoute)
-    }
+    }*/
+    router.replace('/home')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <Spinner />
 }
+
+Home.guestGuard = false
+Home.authGuard = false
 
 export default Home

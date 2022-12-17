@@ -35,4 +35,6 @@ const Home = () => {
   )
 }
 
+Home.guestGuard = false
+Home.authGuard = false
 export default Home
