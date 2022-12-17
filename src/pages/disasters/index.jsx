@@ -60,6 +60,9 @@ const DisastersPage = () => {
           />
           <DataGrid
             autoHeight
+            rows={disasters}
+            pageSize={7}
+            rowsPerPageOptions={[7, 10, 20]}
             columns={[
               {field: 'id', headerName: 'ID', width: 70},
               {field: 'name', headerName: 'Name', flex: 1, valueGetter: (params) => params.row.attributes.name},
@@ -88,9 +91,6 @@ const DisastersPage = () => {
                 }
               }
             ]}
-            rows={disasters}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
           />
         </Card>
       </Grid>
