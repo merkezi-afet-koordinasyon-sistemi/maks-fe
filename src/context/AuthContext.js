@@ -5,7 +5,7 @@ import { createContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 // ** Axios
-import axios from 'axios'
+import generateClient from '../utils/axiosClient'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -29,6 +29,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [isInitialized, setIsInitialized] = useState(defaultProvider.isInitialized)
+  const axios = generateClient()
 
   // ** Hooks
   const router = useRouter()
@@ -41,12 +42,12 @@ const AuthProvider = ({ children }) => {
         await axios
           .get(authConfig.meEndpoint, {
             headers: {
-              Authorization: storedToken
+              Authorization: `Bearer ${storedToken}`
             }
           })
           .then(async response => {
             setLoading(false)
-            setUser({ ...response.data.userData })
+            setUser({ role: 'admin', ...response.data.userData })
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -63,22 +64,26 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   const handleLogin = (params, errorCallback) => {
+    console.log({ params })
     axios
-      .post(authConfig.loginEndpoint, params)
+      .post(authConfig.loginEndpoint, {
+        identifier: params.email,
+        password: params.password
+      })
       .then(async res => {
-        window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.accessToken)
+        window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.jwt)
       })
       .then(() => {
         axios
           .get(authConfig.meEndpoint, {
             headers: {
-              Authorization: window.localStorage.getItem(authConfig.storageTokenKeyName)
+              Authorization: `Bearer ${window.localStorage.getItem(authConfig.storageTokenKeyName)}`
             }
           })
           .then(async response => {
             const returnUrl = router.query.returnUrl
-            setUser({ ...response.data.userData })
-            await window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
+            setUser({ role: 'admin', ...response.data })
+            await window.localStorage.setItem('userData', JSON.stringify({ role: 'admin', ...response.data }))
             const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
             router.replace(redirectURL)
           })
