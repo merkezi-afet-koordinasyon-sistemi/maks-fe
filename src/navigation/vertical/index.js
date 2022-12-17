@@ -21,6 +21,24 @@ const navigation = () => {
       path: '/acl',
       action: 'read',
       subject: 'acl-page'
+    },
+    {
+      title: 'Afet İşlemleri',
+      icon: ShieldOutline,
+      children: [
+        {
+          title: 'Afet Olustur',
+          path: '/disaster/create',
+          action: 'create',
+          subject: 'disaster'
+        },
+        {
+          title: 'Afet Listele',
+          path: '/disaster/list',
+          action: 'read',
+          subject: 'disaster'
+        }
+      ]
     }
   ]
 }
