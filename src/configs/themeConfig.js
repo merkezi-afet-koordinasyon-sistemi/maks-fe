@@ -14,8 +14,8 @@ const themeConfig = {
   mode: 'light' /* light | dark */,
   direction: 'ltr' /* ltr | rtl */,
   skin: 'default' /* default | bordered | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
-  contentWidth: 'boxed' /* full | boxed */,
-  footer: 'static' /* fixed | static | hidden */,
+  contentWidth: 'full' /* full | boxed */,
+  footer: 'hidden' /* fixed | static | hidden */,
   // ** Routing Configs
   routingLoader: true /* true | false */,
   // ** Navigation (Menu) Configs
