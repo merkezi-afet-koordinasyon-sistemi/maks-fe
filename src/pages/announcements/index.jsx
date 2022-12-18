@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import {Avatar, Box, Card, CardContent, CardHeader, Grid, IconButton, styled, Typography} from "@mui/material";
 import {DotsVertical} from "mdi-material-ui";
@@ -34,6 +35,7 @@ const Timeline = styled(MuiTimeline)({
     }
   }
 })
+
 const AnnouncementsPage = () => {
   return (
     <Grid container spacing={3}>
@@ -92,4 +94,5 @@ const AnnouncementsPage = () => {
 
 AnnouncementsPage.guestGuard = false
 AnnouncementsPage.authGuard = false
+
 export default AnnouncementsPage;

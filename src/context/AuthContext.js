@@ -1,8 +1,9 @@
+/* eslint-disable */
 // ** React Imports
-import { createContext, useEffect, useState } from 'react'
+import {createContext, useEffect, useState} from 'react'
 
 // ** Next Import
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 // ** Axios
 import generateClient from '../utils/axiosClient'
@@ -24,7 +25,7 @@ const defaultProvider = {
 }
 const AuthContext = createContext(defaultProvider)
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({children}) => {
   // ** States
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }) => {
           })
           .then(async response => {
             setLoading(false)
-            setUser({ role: 'admin', ...response.data.userData })
+            setUser({role: 'admin', ...response.data.userData})
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -64,7 +65,7 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   const handleLogin = (params, errorCallback) => {
-    console.log({ params })
+    console.log({params})
     axios
       .post(authConfig.loginEndpoint, {
         identifier: params.email,
@@ -82,8 +83,8 @@ const AuthProvider = ({ children }) => {
           })
           .then(async response => {
             const returnUrl = router.query.returnUrl
-            setUser({ role: 'admin', ...response.data })
-            await window.localStorage.setItem('userData', JSON.stringify({ role: 'admin', ...response.data }))
+            setUser({role: 'admin', ...response.data})
+            await window.localStorage.setItem('userData', JSON.stringify({role: 'admin', ...response.data}))
             const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
             router.replace(redirectURL)
           })
@@ -108,7 +109,7 @@ const AuthProvider = ({ children }) => {
         if (res.data.error) {
           if (errorCallback) errorCallback(res.data.error)
         } else {
-          handleLogin({ email: params.email, password: params.password })
+          handleLogin({email: params.email, password: params.password})
         }
       })
       .catch(err => (errorCallback ? errorCallback(err) : null))
@@ -129,4 +130,4 @@ const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }
 
-export { AuthContext, AuthProvider }
+export {AuthContext, AuthProvider}

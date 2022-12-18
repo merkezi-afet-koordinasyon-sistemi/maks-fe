@@ -1,3 +1,4 @@
+/* eslint-disable */
 // ** MUI Imports
 import {useEffect, useState} from 'react'
 import Grid from '@mui/material/Grid'
@@ -10,6 +11,7 @@ const client = generateClient()
 
 const Home = () => {
   const [items, setItems] = useState([])
+
   const fetchItems = async () => {
     const response = await client.get('/disasters', {
       params: {
@@ -46,4 +48,5 @@ const Home = () => {
 
 Home.guestGuard = false
 Home.authGuard = false
+
 export default Home

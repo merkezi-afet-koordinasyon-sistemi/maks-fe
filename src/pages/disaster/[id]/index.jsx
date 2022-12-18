@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {useEffect, useMemo} from 'react';
 import {Card, CardHeader, Grid, Tab} from "@mui/material";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
@@ -7,11 +8,13 @@ import Spinner from "../../../@core/components/spinner";
 import {DataGrid} from "@mui/x-data-grid";
 
 const client = generateClient()
+
 const DisasterDetail = () => {
   const router = useRouter();
   const {id} = router.query;
   const [value, setValue] = React.useState(0);
   const [disaster, setDisaster] = React.useState(null);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   }

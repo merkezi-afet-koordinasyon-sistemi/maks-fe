@@ -3,7 +3,8 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 
 const DialogConfirmation = (props) => {
   const { open, handleClose, handleConfirm } = props
-  return (
+  
+return (
     <Dialog
       open={open}
       disableEscapeKeyDown

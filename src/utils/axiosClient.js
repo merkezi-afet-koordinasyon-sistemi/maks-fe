@@ -14,7 +14,9 @@ const generateClient = () => {
   if (accessToken) {
     instance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  return instance;
+  
+return instance;
 }
+
 export default generateClient;
 
