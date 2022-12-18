@@ -6,13 +6,22 @@ import {Timeline as MuiTimeline, TimelineConnector, TimelineContent, TimelineDot
 const items = [
   {
     id: '1',
-    title: 'Create a new project for client 😎',
-    date: 'April, 18',
-    description: 'Invoices have been paid to the company.',
+    title: 'Merkez Mahallesinde 10 kisi kurtarildi',
+    date: 'Nisan, 18',
+    description: 'Ekiplerin yoğun çabası sonucu 10 kişi kurtarıldı.',
     avatar: '/images/avatars/1.png',
-    name: 'John Doe (Client)',
+    name: 'Ahmet Yilmaz (Kizilay bolge sorumlusu)',
     color: 'primary'
   },
+  {
+    id: '2',
+    title: 'İstasyon Mahallesinde 5 kisi kurtarildi',
+    date: 'Nisan, 18',
+    description: 'Ekiplerin yoğun çabası sonucu 5 kişi',
+    avatar: '/images/avatars/2.png',
+    name: 'Mehmet Öztürk (AFAD bolge sorumlusu)',
+    color: 'secondary'
+  }
 ];
 
 const Timeline = styled(MuiTimeline)({
