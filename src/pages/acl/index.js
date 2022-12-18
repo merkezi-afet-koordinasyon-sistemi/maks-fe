@@ -45,4 +45,7 @@ ACLPage.acl = {
   subject: 'acl-page'
 }
 
+ACLPage.guestGuard = false
+ACLPage.authGuard = false
+
 export default ACLPage

@@ -3,7 +3,7 @@ import qs from "qs";
 
 const generateClient = () => {
   const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || "http://localhost:1337/api",
+    baseURL: process.env.REACT_APP_API_URL || "http://maks.herokuapp.com/api",
     headers: {
       "Content-Type": "application/json"
     },
